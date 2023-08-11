@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import instance from "../api/axios";
-
+import "./Row.css";
 const Row = ({ title, id, fetchUrl }) => {
   const [movies, setMovies] = useState();
+  console.log(movies);
   // 함수를 메모이제이션 하기 위해 useCallback 사용하기
   // fetchUrl이 바뀔때만 렌더링 시 함수 생성
   const fetchMovieData = useCallback(async () => {

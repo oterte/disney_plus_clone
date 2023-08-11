@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from "react";
-import instance from "../api/axios";
-import request from "../api/request";
 import "./Banner.css";
 import { styled } from "styled-components";
+import { useQuery } from "@tanstack/react-query";
+import { getMovieDetail, getMovieId } from "../api/getMovieData";
+import instance from "../api/axios";
+import request from "../api/request";
 
 const Banner = () => {
   const [movie, setMovie] = useState([null]);
   const [isClicked, setIsClicked] = useState(false);
+
+  // const {
+  //   data: movieId,
+  //   isLoading,
+  //   isError,
+  // } = useQuery(["movieData"], getMovieId);
+  // const { data: movieDetail } = useQuery(["movieDetail"], getMovieDetail, {
+  //   placeholderData: movie,
+  // });
+
+  // console.log("movieData...", movieId);
+  // console.log(movieDetail.data);
   useEffect(() => {
     fetchData();
   }, []);
@@ -22,12 +36,12 @@ const Banner = () => {
       params: { append_to_response: "videos" },
     });
     setMovie(movieDetail);
-    console.log(movie);
   };
   const truncate = (str, n) => {
     return str?.length > n ? str.substring(0, n) + "..." : str;
   };
-  if (movie === undefined) return <>loading...</>;
+  // if (isLoading) return <>loading...</>;
+  // if (isError) return <>Error...</>;
   if (isClicked) {
     return (
       <>
@@ -46,7 +60,6 @@ const Banner = () => {
       </>
     );
   } else {
-    console.log(movie);
     return (
       <header
         className="banner"
@@ -70,7 +83,9 @@ const Banner = () => {
               </button>
             )}
           </div>
-          <p className="banner__description">{truncate(movie.overview, 100)}</p>
+          <p className="banner__description">
+            {truncate(movie.overview, 100)}
+          </p>
         </div>
         <div className="banner--fadeBottom" />
       </header>
