@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import instance from "../api/axios";
 import "./Row.css";
+import MovieModal from "./MovieModal";
 const Row = ({ title, id, fetchUrl }) => {
   const [movies, setMovies] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [movieSelected, setMovieSelected] = useState({});
   console.log(movies);
   // 함수를 메모이제이션 하기 위해 useCallback 사용하기
   // fetchUrl이 바뀔때만 렌더링 시 함수 생성
@@ -12,8 +15,10 @@ const Row = ({ title, id, fetchUrl }) => {
     return request;
   }, [fetchUrl]);
 
-  const handleClick = () => {
+  const handleClick = (movie) => {
     // 모달 기능 구현 필요
+    setModalOpen(true);
+    setMovieSelected(movie)
   };
   useEffect(() => {
     fetchMovieData();
@@ -24,9 +29,14 @@ const Row = ({ title, id, fetchUrl }) => {
       <h2>{title}</h2>
       <div className="slider">
         <div className="slider__arrow-left">
-          <span className="arrow" onClick={() => {
+          <span
+            className="arrow"
+            onClick={() => {
               document.getElementById(id).scrollLeft -= window.innerWidth - 80;
-            }}>{"<"}</span>
+            }}
+          >
+            {"<"}
+          </span>
         </div>
         <div id={id} className="row__posters">
           {movies.map((item) => (
@@ -50,6 +60,9 @@ const Row = ({ title, id, fetchUrl }) => {
           </span>
         </div>
       </div>
+      {modalOpen && (
+        <MovieModal {...movieSelected} setModalOpen={setModalOpen} />
+      )}
     </div>
   );
 };
