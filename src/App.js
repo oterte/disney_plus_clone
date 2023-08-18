@@ -1,56 +1,34 @@
-import { styled } from "styled-components";
 import "./App.css";
 import Nav from "./components/Nav";
-import Banner from "./components/Banner";
-import Category from "./components/Category";
-import Row from "./components/Row";
-import request from "./api/request";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { Outlet, Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import MainPage from "./pages/MainPage";
+import DetailPage from "./pages/DetailPage";
+import SearchPage from "./pages/SearchPage";
+
+const Layout = () => {
+  return (
+    <div>
+      <Nav />
+      <Outlet />
+    </div>
+  );
+};
 
 function App() {
-  const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <Container>
-        <Nav />
-        <Banner />
-        <Category />
-        <Row title="Trending Now" id="TN" fetchUrl={request.fetchTrending} />
-        <Row title="Top Rated" id="TR" fetchUrl={request.fetchTopRated} />
-        <Row
-          title="Action Moives"
-          id="AM"
-          fetchUrl={request.fetchActionMovies}
-        />
-        <Row
-          title="Comedy Movies"
-          id="CM"
-          fetchUrl={request.fetchComedyMovies}
-        />
-      </Container>
-    </QueryClientProvider>
+    <div className="app">
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<LoginPage />} />
+          <Route path="main" element={<MainPage />} />
+          <Route path=":movieId" element={<DetailPage />} />
+          <Route path="search" element={<SearchPage />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
 export default App;
-
-const Container = styled.main`
-  position: relative;
-  min-height: calc(100vh - 250px);
-  overflow-x: hidden;
-  display: block;
-
-  /* Nav height이 70이라 그거보다 아래로 */
-  top: 72px;
-  padding: 0 calc(3.5vw + 5px);
-
-  &:after {
-    background: url("/images/home-background.png") center center / cover
-      no-repeat fixed;
-    content: "";
-    position: absolute;
-    inset: 0px;
-    opacity: 1;
-    z-index: -1;
-  }
-`;

@@ -39,7 +39,7 @@ const Row = ({ title, id, fetchUrl }) => {
           </span>
         </div>
         <div id={id} className="row__posters">
-          {movies.map((item) => (
+          {/* {movies.map((item) => (
             <img
               key={item.id}
               className="row__poster"
@@ -47,7 +47,7 @@ const Row = ({ title, id, fetchUrl }) => {
               alt={item.name}
               onClick={() => handleClick(item)}
             />
-          ))}
+          ))} */}
         </div>
         <div className="slider__arrow-right">
           <span
