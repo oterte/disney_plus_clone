@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import instance from "../../api/axios";
-import "./SearchPage.css"
+import "./SearchPage.css";
+import { useDebouce } from "../../hooks/useDebounce";
 const SearchPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const SearchPage = () => {
   };
   let query = useQuery();
   const searchTerm = query.get("q");
-
+  const debouncedSearchTerm = useDebouce(searchTerm, 500);
   const fetchSearchMovie = async (searchTerm) => {
     try {
       const request = await instance.get(
@@ -23,10 +24,10 @@ const SearchPage = () => {
     }
   };
   useEffect(() => {
-    if (searchTerm) {
-      fetchSearchMovie(searchTerm);
+    if (debouncedSearchTerm) {
+      fetchSearchMovie(debouncedSearchTerm);
     }
-  }, [searchTerm]);
+  }, [debouncedSearchTerm]);
 
   if (searchResults.length > 0) {
     return (
