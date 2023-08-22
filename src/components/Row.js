@@ -2,6 +2,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import instance from "../api/axios";
 import "./Row.css";
 import MovieModal from "./MovieModal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { styled } from "styled-components";
+
 const Row = ({ title, id, fetchUrl }) => {
   const [movies, setMovies] = useState();
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,55 +24,49 @@ const Row = ({ title, id, fetchUrl }) => {
   }, [fetchUrl]);
 
   const handleClick = (movie) => {
-    // 모달 기능 구현 필요
     setModalOpen(true);
-    setMovieSelected(movie)
+    setMovieSelected(movie);
   };
   useEffect(() => {
     fetchMovieData();
   }, [fetchMovieData]);
 
   return (
-    <div>
+    <Container>
       <h2>{title}</h2>
-      <div className="slider">
-        <div className="slider__arrow-left">
-          <span
-            className="arrow"
-            onClick={() => {
-              document.getElementById(id).scrollLeft -= window.innerWidth - 80;
-            }}
-          >
-            {"<"}
-          </span>
-        </div>
-        <div id={id} className="row__posters">
-          {/* {movies.map((item) => (
-            <img
-              key={item.id}
-              className="row__poster"
-              src={`https://image.tmdb.org/t/p/original/${item.backdrop_path}`}
-              alt={item.name}
-              onClick={() => handleClick(item)}
-            />
-          ))} */}
-        </div>
-        <div className="slider__arrow-right">
-          <span
-            className="arrow"
-            onClick={() => {
-              document.getElementById(id).scrollLeft += window.innerWidth - 80;
-            }}
-          >
-            {">"}
-          </span>
-        </div>
-      </div>
+      <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        loop={true}
+        navigation
+        pagination={{ clickable: true }}
+      >
+        <Content id={id}>
+          {movies.map((item) => (
+            <SwiperSlide>
+              <Wrap>
+                <img
+                  key={item.id}
+                  className="row__poster"
+                  src={`https://image.tmdb.org/t/p/original/${item.backdrop_path}`}
+                  alt={item.name}
+                  onClick={() => handleClick(item)}
+                />
+              </Wrap>
+            </SwiperSlide>
+          ))}
+        </Content>
+      </Swiper>
       {modalOpen && (
         <MovieModal {...movieSelected} setModalOpen={setModalOpen} />
       )}
-    </div>
+    </Container>
   );
 };
 
 export default Row;
+
+const Container = styled.div`
+  padding: 0 0 26px;
+`;
+const Content = styled.div``;
+const Wrap = styled.div``;
