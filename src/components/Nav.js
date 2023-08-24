@@ -109,6 +109,7 @@ const Login = styled.a`
   border: 1px solid #f9f9f9;
   border-radius: 4px;
   transition: all 0.2s ease 0s;
+  cursor: pointer;
 
   &:hover {
     background-color: #f9f9f9;
@@ -154,7 +155,7 @@ const Logo = styled.a`
   }
 `;
 
-const UserImg = styled.div`
+const UserImg = styled.img`
   border-radius: 50%;
   width: 100%;
   height: 100%;
