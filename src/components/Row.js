@@ -60,8 +60,8 @@ const Row = ({ title, id, fetchUrl }) => {
         }}
       >
         <Content id={id}>
-          {movies.map((item) => (
-            <SwiperSlide>
+          {/* {movies.map((item) => (
+            <SwiperSlide key={item.id}>
               <Wrap>
                 <img
                   key={item.id}
@@ -71,7 +71,7 @@ const Row = ({ title, id, fetchUrl }) => {
                 />
               </Wrap>
             </SwiperSlide>
-          ))}
+          ))} */}
         </Content>
       </Swiper>
       {modalOpen && (
