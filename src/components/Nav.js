@@ -29,7 +29,7 @@ const Nav = () => {
         navigate("/");
       }
     });
-  }, []);
+  }, [auth, navigate, pathname]);
   // auth, navigate, pathname
   const handleChange = (e) => {
     setSearchValue(e.target.value);
