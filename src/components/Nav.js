@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { json, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import {
   getAuth,
@@ -11,7 +11,10 @@ import {
 
 const Nav = () => {
   const [show, setShow] = useState(false);
-  const [userData, setUserData] = useState({});
+  const initialUserData = localStorage.getItem("UserData")
+    ? JSON.stringify(localStorage.getItem("UserData"))
+    : {};
+    const [userData, setUserData] = useState(initialUserData);
   const { pathname } = useLocation();
   const [searchValue, setSearchValue] = useState("");
   const auth = getAuth();
@@ -52,6 +55,7 @@ const Nav = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         setUserData(result.user);
+        localStorage.setItem("UserDate", JSON.stringify(result.user));
       })
       .catch((error) => {
         console.log(error);
